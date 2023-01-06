@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 public class EcommerceTest {
 
@@ -21,7 +22,7 @@ public class EcommerceTest {
         homePage = new HomePage(webDriver);
         homePage.searchInputEnter(query);
         homePage.searchButtonClick();
-        Assert.assertNotNull(homePage.getResultTableElementList());
+        Assert.assertNotEquals(homePage.getResultTableElementList().size(), 0);
         for (WebElement el : homePage.getResultTableElementList()) {
             String brand = el.findElement(By.cssSelector(".item-type-card__info")).getText();
             String itemName = el.findElement(By.cssSelector(".item-type-card__title")).getText();
