@@ -1,4 +1,4 @@
-package com.solvd.ecommerce;
+package com.solvd.ecommerce.utils;
 
 import java.io.FileInputStream;
 import java.io.IOException;

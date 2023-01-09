@@ -1,4 +1,4 @@
-package com.solvd.ecommerce;
+package com.solvd.ecommerce.page;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
