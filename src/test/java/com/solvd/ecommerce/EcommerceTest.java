@@ -1,5 +1,8 @@
 package com.solvd.ecommerce;
 
+import com.solvd.ecommerce.page.HomePage;
+import com.solvd.ecommerce.page.ResultPage;
+import com.solvd.ecommerce.utils.ConfigReader;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -30,7 +33,7 @@ public class EcommerceTest {
         resultPage.printItemData();
     }
 
-    @AfterTest
+    @AfterTest(alwaysRun = true)
     public void quitWebDriver() {
         webDriver.quit();
     }
