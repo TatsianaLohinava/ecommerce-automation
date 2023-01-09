@@ -5,17 +5,15 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-import java.util.List;
-
 public class HomePage {
 
-    WebDriver webDriver;
+    private WebDriver webDriver;
+
     @FindBy(css = "#top-s")
-    WebElement searchInput;
+    private WebElement searchInput;
+
     @FindBy(css = ".top-panel__search__btn")
-    WebElement searchButton;
-    @FindBy(css = ".item-type-card")
-    List<WebElement> resultTableElementList;
+    private WebElement searchButton;
 
     public HomePage(WebDriver webDriver) {
         this.webDriver = webDriver;
@@ -30,15 +28,4 @@ public class HomePage {
         searchButton.click();
     }
 
-    public WebElement getSearchInput() {
-        return searchInput;
-    }
-
-    public WebElement getSearchButton() {
-        return searchButton;
-    }
-
-    public List<WebElement> getResultTableElementList() {
-        return resultTableElementList;
-    }
 }
