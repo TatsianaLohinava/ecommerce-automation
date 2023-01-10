@@ -15,6 +15,11 @@ public class ResultPage {
     @FindBy(css = ".item-type-card")
     private List<WebElement> resultTableElementList;
 
+    @FindBy(xpath = ".//*[@class = 'item-type-card__title']")
+    private List<WebElement> resultNameList;
+
+    private final String brandXPath = ".//following-sibling::p[1]";
+
     public int getResultListSize() {
         return resultTableElementList.size();
     }
@@ -25,14 +30,9 @@ public class ResultPage {
     }
 
     public void printItemData() {
-        getResultTableElementList().forEach(el -> {
-            String brandName = el.findElement(By.cssSelector(".item-type-card__info")).getText();
-            String itemName = el.findElement(By.cssSelector(".item-type-card__title")).getText();
-            System.out.println(brandName + " " + itemName);
+        resultNameList.forEach(el -> {
+            WebElement brand = el.findElement(By.xpath(brandXPath));
+            System.out.println(el.getText() + " " + brand.getText());
         });
-    }
-
-    public List<WebElement> getResultTableElementList() {
-        return resultTableElementList;
     }
 }
