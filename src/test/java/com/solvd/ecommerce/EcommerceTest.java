@@ -18,8 +18,6 @@ import java.util.List;
 
 public class EcommerceTest {
 
-    WebDriver webDriver;
-
     @BeforeTest
     public void setupWebDriver() {
         WebDriverManager.chromedriver().setup();
