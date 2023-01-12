@@ -105,6 +105,7 @@ public class EcommerceTest {
     @AfterMethod
     public void closeBrowser() {
         webDriver.get().close();
+        webDriver.remove();
     }
 
 
