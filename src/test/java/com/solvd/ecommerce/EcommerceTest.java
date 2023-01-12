@@ -18,31 +18,35 @@ import java.util.List;
 
 public class EcommerceTest {
 
+    private static final ThreadLocal<WebDriver> webDriver = new ThreadLocal<>();
+
     @BeforeTest
     public void setupWebDriver() {
         WebDriverManager.chromedriver().setup();
     }
 
+    @BeforeMethod
+    public void openBrowser() {
+        WebDriver driver = new ChromeDriver();
+        driver.get(ConfigReader.getValue("URL"));
+        webDriver.set(driver);
+    }
+
     @Test
     public void verifySearchResultTest() {
         String query = "Maped";
-        WebDriver webDriver = new ChromeDriver();
-        webDriver.get(ConfigReader.getValue("URL"));
-        ResultPage resultPage = new ResultPage(webDriver);
-        Header header = new Header(webDriver);
+        ResultPage resultPage = new ResultPage(webDriver.get());
+        Header header = new Header(webDriver.get());
         header.searchInputEnter(query);
         header.searchButtonClick();
         Assert.assertNotEquals(resultPage.getResultListSize(), 0);
         resultPage.printItemData();
-        webDriver.close();
     }
 
     @Test
     public void checkBackgroundChangeTest() {
-        WebDriver webDriver = new ChromeDriver();
-        webDriver.get(ConfigReader.getValue("URL"));
-        HomePage homePage = new HomePage(webDriver);
-        Actions action = new Actions(webDriver);
+        HomePage homePage = new HomePage(webDriver.get());
+        Actions action = new Actions(webDriver.get());
         SoftAssert sa = new SoftAssert();
         List<WebElement> list = homePage.getSidebarMenuList();
         for (WebElement el : list) {
@@ -50,41 +54,32 @@ public class EcommerceTest {
             sa.assertTrue(el.getAttribute("class").contains("main-nav__list__li_wnav_active"));
         }
         sa.assertAll();
-        webDriver.close();
     }
 
     @Test
     public void checkPinButtonTest() {
         SoftAssert sa = new SoftAssert();
-        WebDriver webDriver = new ChromeDriver();
-        webDriver.get(ConfigReader.getValue("URL"));
-        HomePage homePage = new HomePage(webDriver);
+        HomePage homePage = new HomePage(webDriver.get());
         List<String> classList = homePage.unpinCategoryMenu();
 
         classList.forEach(el -> sa.assertTrue(el.contains("mpgs-nopin")));
         sa.assertAll();
-        webDriver.close();
     }
 
     @Test
     public void checkInputResetTest() {
         String query = "Maped";
-        WebDriver webDriver = new ChromeDriver();
-        webDriver.get(ConfigReader.getValue("URL"));
-        Header header = new Header(webDriver);
+        Header header = new Header(webDriver.get());
         header.searchInputEnter(query);
         header.clickResetButton();
         Assert.assertTrue(header.isSearchInputEmpty());
-        webDriver.close();
     }
 
     @Test
     public void checkSearchFilterResultTest() {
         String query = "английский";
-        WebDriver webDriver = new ChromeDriver();
-        webDriver.get(ConfigReader.getValue("URL"));
-        ResultPage resultPage = new ResultPage(webDriver);
-        Header header = new Header(webDriver);
+        ResultPage resultPage = new ResultPage(webDriver.get());
+        Header header = new Header(webDriver.get());
         SoftAssert sa = new SoftAssert();
 
         header.searchInputEnter(query);
@@ -93,14 +88,11 @@ public class EcommerceTest {
         List<Boolean> isNewList = resultPage.checkNewItemsList();
         isNewList.forEach(sa::assertTrue);
         sa.assertAll();
-        webDriver.close();
     }
 
     @Test
     public void checkInvalidLoginDataTest() {
-        WebDriver webDriver = new ChromeDriver();
-        webDriver.get(ConfigReader.getValue("URL"));
-        Header header = new Header(webDriver);
+        Header header = new Header(webDriver.get());
         LoginPage loginPage = header.clickMainLoginButton();
         loginPage.clickLoginWithEmailButton();
         loginPage.fillEmailInput("abc@gmail.com");
@@ -108,8 +100,13 @@ public class EcommerceTest {
         loginPage.clickLoginFormButton();
         String warningMessage = loginPage.getWarningMessageText();
         Assert.assertTrue(warningMessage.contains("Адрес электронной почты не зарегистрирован."));
-        webDriver.close();
     }
+
+    @AfterMethod
+    public void closeBrowser() {
+        webDriver.get().close();
+    }
+
 
     @AfterTest(alwaysRun = true)
     public void quitWebDriver() {
