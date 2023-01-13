@@ -4,18 +4,15 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ResultPage {
+public class ResultPage extends AbstractPage {
 
     Logger logger = LoggerFactory.getLogger(ResultPage.class);
-
-    private final WebDriver webDriver;
 
     @FindBy(css = ".item-type-card")
     private List<WebElement> resultTableElementList;
@@ -29,8 +26,7 @@ public class ResultPage {
     private WebElement newFilterCheckbox;
 
     public ResultPage(WebDriver webDriver) {
-        this.webDriver = webDriver;
-        PageFactory.initElements(webDriver, this);
+        super(webDriver);
     }
 
     public int getResultListSize() {

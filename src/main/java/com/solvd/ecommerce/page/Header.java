@@ -3,11 +3,8 @@ package com.solvd.ecommerce.page;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
-public class Header {
-
-    WebDriver webDriver;
+public class Header extends AbstractPage {
 
     @FindBy(css = "#top-s")
     private WebElement searchInput;
@@ -22,8 +19,7 @@ public class Header {
     private WebElement mainLoginButton;
 
     public Header(WebDriver webDriver) {
-        this.webDriver = webDriver;
-        PageFactory.initElements(webDriver, this);
+        super(webDriver);
     }
 
     public void searchInputEnter(String query) {

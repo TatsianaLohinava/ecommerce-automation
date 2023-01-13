@@ -10,9 +10,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public class LoginPage {
-
-    WebDriver webDriver;
+public class LoginPage extends AbstractPage {
 
     @FindBy(id = "loginFormLoginEmailLink")
     private WebElement emailLoginTab;
@@ -33,8 +31,7 @@ public class LoginPage {
     private WebElement warningMessage;
 
     public LoginPage(WebDriver webDriver) {
-        this.webDriver = webDriver;
-        PageFactory.initElements(webDriver, this);
+        super(webDriver);
     }
 
     public void clickLoginWithEmailButton() {

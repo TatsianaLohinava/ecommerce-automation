@@ -4,14 +4,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomePage {
-
-    private WebDriver webDriver;
+public class HomePage extends AbstractPage {
 
     @FindBy(css = ".main-nav__list__li.main-nav__list__li_wnav")
     private List<WebElement> sidebarMenuList;
@@ -22,8 +19,7 @@ public class HomePage {
     private final String pinButtonPath = "//*[contains(@class, 'i-oz') and contains(@class, 'mpgs-unpin')]";
 
     public HomePage(WebDriver webDriver) {
-        this.webDriver = webDriver;
-        PageFactory.initElements(webDriver, this);
+        super(webDriver);
     }
 
     public List<String> unpinCategoryMenu() {
