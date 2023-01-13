@@ -4,11 +4,7 @@ import com.solvd.ecommerce.page.Header;
 import com.solvd.ecommerce.page.HomePage;
 import com.solvd.ecommerce.page.LoginPage;
 import com.solvd.ecommerce.page.ResultPage;
-import com.solvd.ecommerce.utils.ConfigReader;
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.*;
@@ -16,27 +12,13 @@ import org.testng.asserts.SoftAssert;
 
 import java.util.List;
 
-public class EcommerceTest {
-
-    private static final ThreadLocal<WebDriver> webDriver = new ThreadLocal<>();
-
-    @BeforeTest
-    public void setupWebDriver() {
-        WebDriverManager.chromedriver().setup();
-    }
-
-    @BeforeMethod
-    public void openBrowser() {
-        WebDriver driver = new ChromeDriver();
-        driver.get(ConfigReader.getValue("URL"));
-        webDriver.set(driver);
-    }
+public class EcommerceTest extends AbstractTest {
 
     @Test
     public void verifySearchResultTest() {
         String query = "Maped";
-        ResultPage resultPage = new ResultPage(webDriver.get());
-        Header header = new Header(webDriver.get());
+        ResultPage resultPage = new ResultPage(getDriver());
+        Header header = new Header(getDriver());
         header.searchInputEnter(query);
         header.searchButtonClick();
         Assert.assertNotEquals(resultPage.getResultListSize(), 0);
@@ -45,8 +27,8 @@ public class EcommerceTest {
 
     @Test
     public void checkBackgroundChangeTest() {
-        HomePage homePage = new HomePage(webDriver.get());
-        Actions action = new Actions(webDriver.get());
+        HomePage homePage = new HomePage(getDriver());
+        Actions action = new Actions(getDriver());
         SoftAssert sa = new SoftAssert();
         List<WebElement> list = homePage.getSidebarMenuList();
         for (WebElement el : list) {
@@ -59,7 +41,7 @@ public class EcommerceTest {
     @Test
     public void checkPinButtonTest() {
         SoftAssert sa = new SoftAssert();
-        HomePage homePage = new HomePage(webDriver.get());
+        HomePage homePage = new HomePage(getDriver());
         List<String> classList = homePage.unpinCategoryMenu();
 
         classList.forEach(el -> sa.assertTrue(el.contains("mpgs-nopin")));
@@ -69,7 +51,7 @@ public class EcommerceTest {
     @Test
     public void checkInputResetTest() {
         String query = "Maped";
-        Header header = new Header(webDriver.get());
+        Header header = new Header(getDriver());
         header.searchInputEnter(query);
         header.clickResetButton();
         Assert.assertTrue(header.isSearchInputEmpty());
@@ -78,8 +60,8 @@ public class EcommerceTest {
     @Test
     public void checkSearchFilterResultTest() {
         String query = "английский";
-        ResultPage resultPage = new ResultPage(webDriver.get());
-        Header header = new Header(webDriver.get());
+        ResultPage resultPage = new ResultPage(getDriver());
+        Header header = new Header(getDriver());
         SoftAssert sa = new SoftAssert();
 
         header.searchInputEnter(query);
@@ -92,7 +74,7 @@ public class EcommerceTest {
 
     @Test
     public void checkInvalidLoginDataTest() {
-        Header header = new Header(webDriver.get());
+        Header header = new Header(getDriver());
         LoginPage loginPage = header.clickMainLoginButton();
         loginPage.clickLoginWithEmailButton();
         loginPage.fillEmailInput("abc@gmail.com");
@@ -102,15 +84,4 @@ public class EcommerceTest {
         Assert.assertTrue(warningMessage.contains("Адрес электронной почты не зарегистрирован."));
     }
 
-    @AfterMethod
-    public void closeBrowser() {
-        webDriver.get().close();
-        webDriver.remove();
-    }
-
-
-    @AfterTest(alwaysRun = true)
-    public void quitWebDriver() {
-        WebDriverManager.chromedriver().quit();
-    }
 }

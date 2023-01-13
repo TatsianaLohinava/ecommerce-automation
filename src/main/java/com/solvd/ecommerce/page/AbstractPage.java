@@ -3,7 +3,7 @@ package com.solvd.ecommerce.page;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 
-public class AbstractPage {
+public abstract class AbstractPage {
 
     WebDriver webDriver;
 
