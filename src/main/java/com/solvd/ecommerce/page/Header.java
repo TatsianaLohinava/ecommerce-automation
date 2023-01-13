@@ -23,24 +23,24 @@ public class Header extends AbstractPage {
     }
 
     public void searchInputEnter(String query) {
-        searchInput.sendKeys(query);
+        sendKeys(searchInput, query);
     }
 
     public void searchButtonClick() {
-        searchButton.click();
+        clickElement(searchButton);
     }
 
     public void clickResetButton() {
-        inputResetButton.click();
+        clickElement(inputResetButton);
     }
 
     public boolean isSearchInputEmpty() {
-        String value = searchInput.getAttribute("value");
+        String value = getAttribute(searchInput, "value");
         return value.isEmpty();
     }
 
     public LoginPage clickMainLoginButton() {
-        mainLoginButton.click();
+        clickElement(mainLoginButton);
         return new LoginPage(webDriver);
     }
 }

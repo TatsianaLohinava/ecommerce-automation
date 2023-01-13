@@ -3,6 +3,7 @@ package com.solvd.ecommerce.page;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,21 +36,21 @@ public class ResultPage extends AbstractPage {
 
     public void printItemData() {
         resultNameList.forEach(el -> {
-            WebElement brand = el.findElement(By.xpath(brandXPath));
-            logger.info(el.getText() + " " + brand.getText());
+            WebElement brand = findElement(el, brandXPath);
+            logger.info(getText(el) + " " + getText(brand));
         });
     }
 
     public void checkNewFilterBox() {
         if (newFilterCheckbox.isDisplayed()) {
-            newFilterCheckbox.click();
+            clickElement(newFilterCheckbox);
         }
     }
 
     public List<Boolean> checkNewItemsList() {
         List<Boolean> newItems = new ArrayList<>();
         for (WebElement webElement : resultTableElementList) {
-            boolean isNew = webElement.getText().contains("Новинка");
+            boolean isNew = getText(webElement).contains("Новинка");
             newItems.add(isNew);
         }
         return newItems;

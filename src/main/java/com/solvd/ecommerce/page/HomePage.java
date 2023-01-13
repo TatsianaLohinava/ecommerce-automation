@@ -1,6 +1,5 @@
 package com.solvd.ecommerce.page;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -25,9 +24,9 @@ public class HomePage extends AbstractPage {
     public List<String> unpinCategoryMenu() {
         List<String> unpinnedClasses = new ArrayList<>();
         for (WebElement el : categorySectionWithPinList) {
-            WebElement pinButton = el.findElement(By.xpath(pinButtonPath));
-            pinButton.click();
-            unpinnedClasses.add(el.getAttribute("class"));
+            WebElement pinButton = findElement(el, pinButtonPath);
+            clickElement(pinButton);
+            unpinnedClasses.add(getAttribute(el, "class"));
         }
         return unpinnedClasses;
     }

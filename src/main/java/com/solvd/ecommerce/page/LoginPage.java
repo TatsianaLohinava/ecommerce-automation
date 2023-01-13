@@ -1,14 +1,8 @@
 package com.solvd.ecommerce.page;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
 
 public class LoginPage extends AbstractPage {
 
@@ -35,24 +29,22 @@ public class LoginPage extends AbstractPage {
     }
 
     public void clickLoginWithEmailButton() {
-        emailLoginTab.click();
+        clickElement(emailLoginTab);
     }
 
     public void fillEmailInput(String string) {
-        emailInput.sendKeys(string);
+        sendKeys(emailInput, string);
     }
 
     public void fillPasswordInput(String string) {
-        passwordInput.sendKeys(string);
+        sendKeys(passwordInput, string);
     }
 
     public void clickLoginFormButton() {
-        loginFormButton.click();
+        clickElement(loginFormButton);
     }
 
     public String getWarningMessageText() {
-        new WebDriverWait(webDriver, Duration.ofSeconds(1)).until(ExpectedConditions.elementToBeClickable(By.cssSelector("#loginForm .i-popover__line")));
-
-        return warningMessage.getText();
+        return getText(warningMessage);
     }
 }
