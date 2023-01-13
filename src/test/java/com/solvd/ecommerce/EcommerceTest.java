@@ -14,9 +14,8 @@ import java.util.List;
 
 public class EcommerceTest extends AbstractTest {
 
-    @Test
-    public void verifySearchResultTest() {
-        String query = "Maped";
+    @Test(dataProvider = "query")
+    public void verifySearchResultTest(String query) {
         ResultPage resultPage = new ResultPage(getDriver());
         Header header = new Header(getDriver());
         header.searchInputEnter(query);
@@ -48,18 +47,16 @@ public class EcommerceTest extends AbstractTest {
         sa.assertAll();
     }
 
-    @Test
-    public void checkInputResetTest() {
-        String query = "Maped";
+    @Test(dataProvider = "query")
+    public void checkInputResetTest(String query) {
         Header header = new Header(getDriver());
         header.searchInputEnter(query);
         header.clickResetButton();
         Assert.assertTrue(header.isSearchInputEmpty());
     }
 
-    @Test
-    public void checkSearchFilterResultTest() {
-        String query = "английский";
+    @Test(dataProvider = "query")
+    public void checkSearchFilterResultTest(String query) {
         ResultPage resultPage = new ResultPage(getDriver());
         Header header = new Header(getDriver());
         SoftAssert sa = new SoftAssert();
@@ -72,13 +69,13 @@ public class EcommerceTest extends AbstractTest {
         sa.assertAll();
     }
 
-    @Test
-    public void checkInvalidLoginDataTest() {
+    @Test(dataProvider = "credentials")
+    public void checkInvalidLoginDataTest(String email, String pass) {
         Header header = new Header(getDriver());
         LoginPage loginPage = header.clickMainLoginButton();
         loginPage.clickLoginWithEmailButton();
-        loginPage.fillEmailInput("abc@gmail.com");
-        loginPage.fillPasswordInput("abcd");
+        loginPage.fillEmailInput(email);
+        loginPage.fillPasswordInput(pass);
         loginPage.clickLoginFormButton();
         String warningMessage = loginPage.getWarningMessageText();
         Assert.assertTrue(warningMessage.contains("Адрес электронной почты не зарегистрирован."));

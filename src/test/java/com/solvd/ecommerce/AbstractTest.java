@@ -4,14 +4,25 @@ import com.solvd.ecommerce.utils.ConfigReader;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.*;
 
 public abstract class AbstractTest {
 
     private static final ThreadLocal<WebDriver> webDriver = new ThreadLocal<>();
+
+    @DataProvider(name = "query")
+    public Object[][] createQueryData() {
+        return new Object[][]{
+                new Object[]{new String("английский")}
+        };
+    }
+
+    @DataProvider(name = "credentials")
+    public Object[][] createCredentialsData() {
+        return new Object[][]{
+                {"abc@gmail.com", "abcd"}
+        };
+    }
 
     @BeforeTest
     public void setupWebDriver() {
