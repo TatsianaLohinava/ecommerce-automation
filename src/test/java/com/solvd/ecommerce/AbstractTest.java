@@ -36,15 +36,10 @@ public abstract class AbstractTest {
         webDriver.set(driver);
     }
 
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void closeBrowser() {
-        webDriver.get().close();
+        webDriver.get().quit();
         webDriver.remove();
-    }
-
-    @AfterTest(alwaysRun = true)
-    public void quitWebDriver() {
-        WebDriverManager.chromedriver().quit();
     }
 
     public WebDriver getDriver() {
