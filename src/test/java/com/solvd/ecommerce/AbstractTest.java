@@ -13,7 +13,7 @@ public abstract class AbstractTest {
     @DataProvider(name = "query")
     public Object[][] createQueryData() {
         return new Object[][]{
-                new Object[]{"Фотоальбом"}
+                new Object[]{"Ластик"}
         };
     }
 

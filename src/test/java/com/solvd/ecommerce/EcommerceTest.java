@@ -32,7 +32,7 @@ public class EcommerceTest extends AbstractTest {
         List<WebElement> list = homePage.getSidebarMenuList();
         for (WebElement el : list) {
             action.moveToElement(el).perform();
-            sa.assertTrue(el.getAttribute("class").contains("main-nav__list__li_wnav_active"));
+            sa.assertTrue(el.getAttribute("class").contains("main-nav__list__li_wnav_active"), "List element hasn't changed appearance on hover.");
         }
         sa.assertAll();
     }
@@ -43,7 +43,7 @@ public class EcommerceTest extends AbstractTest {
         HomePage homePage = new HomePage(getDriver());
         List<String> classList = homePage.unpinCategoryMenu();
 
-        classList.forEach(el -> sa.assertTrue(el.contains("mpgs-nopin")));
+        classList.forEach(el -> sa.assertTrue(el.contains("mpgs-nopin"), "Heading hasn't changed its appearance."));
         sa.assertAll();
     }
 
@@ -52,7 +52,7 @@ public class EcommerceTest extends AbstractTest {
         Header header = new Header(getDriver());
         header.searchInputEnter(query);
         header.clickResetButton();
-        Assert.assertTrue(header.isSearchInputEmpty());
+        Assert.assertTrue(header.isSearchInputEmpty(), "Search input is not empty.");
     }
 
     @Test(dataProvider = "query")
@@ -65,7 +65,7 @@ public class EcommerceTest extends AbstractTest {
         header.searchButtonClick();
         resultPage.checkNewFilterBox();
         List<Boolean> isNewList = resultPage.checkNewItemsList();
-        isNewList.forEach(sa::assertTrue);
+        isNewList.forEach(el -> sa.assertTrue(el, "The element does not contain the badge."));
         sa.assertAll();
     }
 
@@ -78,7 +78,7 @@ public class EcommerceTest extends AbstractTest {
         loginPage.fillPasswordInput(pass);
         loginPage.clickLoginFormButton();
         String warningMessage = loginPage.getWarningMessageText();
-        Assert.assertTrue(warningMessage.contains("Адрес электронной почты не зарегистрирован."));
+        Assert.assertTrue(warningMessage.contains("Адрес электронной почты не зарегистрирован."), "Warning message does not contain the required text.");
     }
 
 }
