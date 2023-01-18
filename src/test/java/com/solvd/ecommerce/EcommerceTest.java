@@ -4,8 +4,6 @@ import com.solvd.ecommerce.page.Header;
 import com.solvd.ecommerce.page.HomePage;
 import com.solvd.ecommerce.page.LoginPage;
 import com.solvd.ecommerce.page.ResultPage;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
@@ -27,13 +25,10 @@ public class EcommerceTest extends AbstractTest {
     @Test
     public void checkBackgroundChangeTest() {
         HomePage homePage = new HomePage(getDriver());
-        Actions action = new Actions(getDriver());
         SoftAssert sa = new SoftAssert();
-        List<WebElement> list = homePage.getSidebarMenuList();
-        for (WebElement el : list) {
-            action.moveToElement(el).perform();
-            sa.assertTrue(el.getAttribute("class").contains("main-nav__list__li_wnav_active"), "List element hasn't changed appearance on hover.");
-        }
+        List<String> list = homePage.getElementClassList(getDriver());
+
+        list.forEach(el -> sa.assertTrue(el.contains("main-nav__list__li_wnav_active"), "List element hasn't changed appearance on hover."));
         sa.assertAll();
     }
 

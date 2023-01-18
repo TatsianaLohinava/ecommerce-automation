@@ -2,6 +2,7 @@ package com.solvd.ecommerce.page;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.ArrayList;
@@ -31,8 +32,15 @@ public class HomePage extends AbstractPage {
         return unpinnedClasses;
     }
 
-    public List<WebElement> getSidebarMenuList() {
-        return sidebarMenuList;
+    public List<String> getElementClassList(WebDriver webDriver) {
+        List<String> sidebarElementClassList = new ArrayList<>();
+        Actions action = new Actions(webDriver);
+        for (WebElement el : sidebarMenuList) {
+            action.moveToElement(el).perform();
+            String elementClassName = el.getAttribute("class");
+            sidebarElementClassList.add(elementClassName);
+        }
+        return  sidebarElementClassList;
     }
 
 }
