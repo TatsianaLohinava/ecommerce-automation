@@ -2,30 +2,45 @@ package com.solvd.ecommerce.page;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
-public class HomePage {
+import java.util.ArrayList;
+import java.util.List;
 
-    private WebDriver webDriver;
+public class HomePage extends AbstractPage {
 
-    @FindBy(css = "#top-s")
-    private WebElement searchInput;
+    @FindBy(css = ".main-nav__list__li.main-nav__list__li_wnav")
+    private List<WebElement> sidebarMenuList;
 
-    @FindBy(css = ".top-panel__search__btn")
-    private WebElement searchButton;
+    @FindBy(xpath = ".//*[contains(@id, 'category_goods_container') and not(contains(@class, 'mpgs-nopin'))]")
+    private List<WebElement> categorySectionWithPinList;
+
+    private final String pinButtonPath = "//*[contains(@class, 'i-oz') and contains(@class, 'mpgs-unpin')]";
 
     public HomePage(WebDriver webDriver) {
-        this.webDriver = webDriver;
-        PageFactory.initElements(webDriver, this);
+        super(webDriver);
     }
 
-    public void searchInputEnter(String query) {
-        searchInput.sendKeys(query);
+    public List<String> unpinCategoryMenu() {
+        List<String> unpinnedClasses = new ArrayList<>();
+        for (WebElement el : categorySectionWithPinList) {
+            WebElement pinButton = findElement(el, pinButtonPath);
+            clickElement(pinButton);
+            unpinnedClasses.add(getAttribute(el, "class"));
+        }
+        return unpinnedClasses;
     }
 
-    public void searchButtonClick() {
-        searchButton.click();
+    public List<String> getElementClassList(WebDriver webDriver) {
+        List<String> sidebarElementClassList = new ArrayList<>();
+        Actions action = new Actions(webDriver);
+        for (WebElement el : sidebarMenuList) {
+            action.moveToElement(el).perform();
+            String elementClassName = el.getAttribute("class");
+            sidebarElementClassList.add(elementClassName);
+        }
+        return  sidebarElementClassList;
     }
 
 }
